@@ -1,10 +1,14 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import { WeatherDataModule } from './modules/weather-data/weather-data.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // torna o ConfigService acessível em qualquer lugar
+      envFilePath: '.env', // opcional, padrão é '.env'
+    }),
+    WeatherDataModule,
+  ],
 })
 export class AppModule {}

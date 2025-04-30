@@ -6,7 +6,6 @@ import {
   FindOptionsWhere,
   Repository,
   SaveOptions,
-  DeepPartial,
 } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { ContextService } from '../../contexts/context.service';
@@ -24,27 +23,23 @@ export class TenantAwareRepository<
     super(entity, manager);
   }
 
-  async saveTenant(
-    entity: DeepPartial<T> | DeepPartial<T>[],
-    options?: SaveOptions,
-  ): Promise<T | T[]> {
+  async saveTenant(entity: T, options?: SaveOptions): Promise<T> {
     const tenantId = this.contextService.getTenantId();
 
-    if (Array.isArray(entity)) {
-      const entitiesWithTenant = entity.map((e) => ({
-        ...e,
-        tenantId: tenantId || e.tenantId,
-      })) as DeepPartial<T>[];
+    entity.tenantId = tenantId || entity.tenantId;
 
-      return super.save(entitiesWithTenant, options);
-    } else {
-      const entityWithTenant = {
-        ...entity,
-        tenantId: tenantId || entity.tenantId,
-      } as DeepPartial<T>;
+    return super.save(entity, options);
+  }
 
-      return super.save(entityWithTenant, options);
-    }
+  async saveAllTenant(entities: T[], options?: SaveOptions): Promise<T[]> {
+    const tenantId = this.contextService.getTenantId();
+
+    const entitiesWithTenant = entities.map((entity) => ({
+      ...entity,
+      tenantId: tenantId || entity.tenantId,
+    }));
+
+    return super.save(entitiesWithTenant, options);
   }
 
   async find(options?: FindOneOptions<T>): Promise<T[]> {
