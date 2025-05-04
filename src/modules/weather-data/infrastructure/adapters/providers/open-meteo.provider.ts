@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { WeatherProviderPort } from '../../../domain/ports/weather-provider.port';
+import { OpenMeteoPort } from '../../../domain/ports/open-meteo.port';
 import { WeatherQueryParams } from '../../../domain/types/weather-query-params';
 
 @Injectable()
-export class OpenMeteoProvider implements WeatherProviderPort {
+export class OpenMeteoProvider implements OpenMeteoPort {
   async getTemperature(params: WeatherQueryParams): Promise<number> {
     return 25.5; // mock
   }

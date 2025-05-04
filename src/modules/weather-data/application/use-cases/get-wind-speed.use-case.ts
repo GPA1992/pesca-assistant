@@ -4,13 +4,13 @@ import { OpenMeteoPort } from '../../domain/ports/open-meteo.port';
 import { OPEN_METEO_PROVIDER_TOKEN } from '../../infrastructure/weather.constants';
 
 @Injectable()
-export class GetTemperatureUseCase {
+export class GetWindSpeedUseCase {
   constructor(
     @Inject(OPEN_METEO_PROVIDER_TOKEN)
     private readonly provider: OpenMeteoPort,
   ) {}
 
   async execute(params: WeatherParamsDto): Promise<number> {
-    return await this.provider.getTemperature(params);
+    return await this.provider.getWindSpeed(params);
   }
 }
