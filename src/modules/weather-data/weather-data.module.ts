@@ -9,6 +9,8 @@ import { GetWindSpeedHandler } from './infrastructure/controllers/handlers/get-w
 import { GetHumidityUseCase } from './application/use-cases/get-humidity.use-case';
 import { GetPressureUseCase } from './application/use-cases/get-pressure.use-case';
 import { GetWindSpeedUseCase } from './application/use-cases/get-wind-speed.use-case';
+import { GetRainDataUseCase } from './application/use-cases/get-rain-data.use-case';
+import { GetRainDataHandler } from './infrastructure/controllers/handlers/get-raind-data.handler';
 
 @Module({
   providers: [
@@ -21,12 +23,14 @@ import { GetWindSpeedUseCase } from './application/use-cases/get-wind-speed.use-
     GetPressureUseCase,
     GetWindSpeedUseCase,
     OpenMeteoProvider,
+    GetRainDataUseCase,
   ],
   controllers: [
     GetTemperatureHandler,
     GetHumidityHandler,
     GetPressureHandler,
     GetWindSpeedHandler,
+    GetRainDataHandler,
   ],
   exports: [GetTemperatureUseCase],
 })

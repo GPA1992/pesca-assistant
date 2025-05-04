@@ -39,3 +39,20 @@ export interface WeatherHourlyData {
   hourly: HourlyDayWeatherData[];
   targetHour: HourlyDayWeatherData;
 }
+
+export interface RainHourlyData {
+  hourly: {
+    time: string;
+    probability: number;
+    total: number;
+    rain: number;
+    showers: number;
+  }[];
+  targetHour: {
+    time: string;
+    probability: number;
+    total: number;
+    rain: number;
+    showers: number;
+  };
+}

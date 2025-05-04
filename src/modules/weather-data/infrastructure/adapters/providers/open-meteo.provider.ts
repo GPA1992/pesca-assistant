@@ -4,6 +4,7 @@ import { fetchWeatherApi } from 'openmeteo';
 
 import { OpenMeteoPort } from 'src/modules/weather-data/domain/ports/open-meteo.port';
 import {
+  RainHourlyData,
   WeatherApiResponse,
   WeatherHourlyData,
 } from 'src/modules/weather-data/domain/types/weather-api-response';
@@ -95,5 +96,59 @@ export class OpenMeteoProvider implements OpenMeteoPort {
       throw new Error('Dados de temperatura não disponíveis');
     }
     return data;
+  }
+
+  async getRainData(params: WeatherQueryParams): Promise<RainHourlyData> {
+    const requestParams = {
+      latitude: params.latitude,
+      longitude: params.longitude,
+      hourly: ['precipitation_probability', 'precipitation', 'rain', 'showers'],
+    };
+
+    const responses = await fetchWeatherApi(this.apiUrl, requestParams);
+    const response = responses[0];
+    const hourly = response.hourly();
+    const utcOffsetSeconds = response.utcOffsetSeconds();
+
+    if (!hourly) {
+      throw new Error('Dados de precipitação não disponíveis');
+    }
+
+    const timeStart = Number(hourly.time());
+    const interval = hourly.interval();
+    const times = Array.from({
+      length: (Number(hourly.timeEnd()) - timeStart) / interval,
+    }).map((_, i) =>
+      new Date(
+        (timeStart + i * interval + utcOffsetSeconds) * 1000,
+      ).toISOString(),
+    );
+
+    const probability = hourly.variables(0)?.valuesArray() ?? [];
+    const total = hourly.variables(1)?.valuesArray() ?? [];
+    const rain = hourly.variables(2)?.valuesArray() ?? [];
+    const showers = hourly.variables(3)?.valuesArray() ?? [];
+
+    const hourlyData = times.map((time, i) => ({
+      time,
+      probability: probability[i],
+      total: total[i],
+      rain: rain[i],
+      showers: showers[i],
+    }));
+
+    const targetHour = params.datetime.getUTCHours();
+    const index = times.findIndex(
+      (t) => new Date(t).getUTCHours() === targetHour,
+    );
+
+    if (index === -1) {
+      throw new Error('Hora alvo não encontrada nos dados');
+    }
+
+    return {
+      hourly: hourlyData,
+      targetHour: hourlyData[index],
+    };
   }
 }

@@ -1,4 +1,7 @@
-import { WeatherHourlyData } from '../types/weather-api-response';
+import {
+  RainHourlyData,
+  WeatherHourlyData,
+} from '../types/weather-api-response';
 import { WeatherQueryParams } from '../types/weather-query-params';
 
 export interface OpenMeteoPort {
@@ -6,4 +9,5 @@ export interface OpenMeteoPort {
   getHumidity(params: WeatherQueryParams): Promise<WeatherHourlyData>;
   getPressure(params: WeatherQueryParams): Promise<WeatherHourlyData>;
   getWindSpeed(params: WeatherQueryParams): Promise<WeatherHourlyData>;
+  getRainData(params: WeatherQueryParams): Promise<RainHourlyData>;
 }
