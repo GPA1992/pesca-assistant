@@ -1,6 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { GetRainDataUseCase } from '../../../application/use-cases/get-rain-data.use-case';
-import { WeatherParamsDto } from '../../../application/dtos/weather-params.dto';
 import { WeatherQueryParamsDto } from '../dtos/get-weather-data.query.dto';
 
 @Controller('weather')
