@@ -11,6 +11,8 @@ import { GetWindSpeedUseCase } from './application/use-cases/get-wind-speed.use-
 import { GetRainDataUseCase } from './application/use-cases/get-rain-data.use-case';
 import { GetRainDataHandler } from './infrastructure/controllers/handlers/get-raind-data.handler';
 import { OpenMeteoProvider } from './infrastructure/adapters/providers/weather-api/open-meteo.provider';
+import { GetAllWeatherDataHandler } from './infrastructure/controllers/handlers/get-all-weather.handler';
+import { GetAllWeatherDataUseCase } from './application/use-cases/get-all-weather-data.use-case';
 
 @Module({
   providers: [
@@ -25,6 +27,7 @@ import { OpenMeteoProvider } from './infrastructure/adapters/providers/weather-a
     GetWindSpeedUseCase,
     OpenMeteoProvider,
     GetRainDataUseCase,
+    GetAllWeatherDataUseCase,
   ],
   controllers: [
     GetTemperatureHandler,
@@ -32,6 +35,7 @@ import { OpenMeteoProvider } from './infrastructure/adapters/providers/weather-a
     GetPressureHandler,
     GetWindSpeedHandler,
     GetRainDataHandler,
+    GetAllWeatherDataHandler,
   ],
   exports: [GetTemperatureUseCase],
 })

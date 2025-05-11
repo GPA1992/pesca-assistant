@@ -1,6 +1,7 @@
 import { RainHourlyDataInterface } from '../../infrastructure/adapters/providers/entities/rain-hourly.entity';
 import { WeatherHourlyDataInterface } from '../../infrastructure/adapters/providers/entities/weather-hourly.entity';
 import { HourlyResponseData } from '../types/day-hourly-response';
+import { WeatherDataByHour } from '../types/weather-data-by-hour';
 
 import { WeatherQueryParams } from '../types/weather-query-params';
 
@@ -20,4 +21,7 @@ export interface OpenMeteoPort {
   getRainData(
     params: WeatherQueryParams,
   ): Promise<HourlyResponseData<RainHourlyDataInterface>>;
+  getAllWeatherData(
+    params: WeatherQueryParams,
+  ): Promise<HourlyResponseData<WeatherDataByHour>>;
 }
