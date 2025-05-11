@@ -10,10 +10,10 @@ export interface VisualCrossingAstronomyResponse {
 }
 
 export interface AstronomyDayData {
-  datetime: string; // ex: "2025-05-11"
-  sunrise: string; // ex: "06:41:18"
-  sunset: string; // ex: "17:42:21"
-  moonphase: number; // ex: 0.46
-  moonrise?: string; // pode não existir em alguns dias
-  moonset?: string; // pode não existir em alguns dias
+  datetime: string;
+  sunrise: string;
+  sunset: string;
+  moonphase: number;
+  moonrise?: string;
+  moonset?: string;
 }

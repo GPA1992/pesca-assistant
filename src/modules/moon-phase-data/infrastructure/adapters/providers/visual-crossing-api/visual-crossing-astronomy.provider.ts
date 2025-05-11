@@ -1,9 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
 import { VisualCrossingAstronomyDataEntity } from 'src/modules/moon-phase-data/domain/entities/visual-crossing-astronomy-data.entity';
 import { VisualCrossingAstronomyPort } from 'src/modules/moon-phase-data/domain/ports/visual-crossing-weather.port';
-import { DailyResponseData } from 'src/modules/moon-phase-data/domain/types/day-response';
+import { MoonPhaseDataResponse } from 'src/modules/moon-phase-data/domain/types/day-response';
 import { MoonPhaseQueryParams } from 'src/modules/moon-phase-data/domain/types/moon-phases-query-params';
-import { VisualCrossingAstronomyResponse } from 'src/modules/moon-phase-data/domain/types/visual-crossing-response';
+import { VisualCrossingAstronomyResponse } from './types/visual-crossing-response';
 
 export class VisualCrossingAstronomyProvider
   implements VisualCrossingAstronomyPort
@@ -14,9 +14,7 @@ export class VisualCrossingAstronomyProvider
     datetime,
     latitude,
     longitude,
-  }: MoonPhaseQueryParams): Promise<
-    DailyResponseData<VisualCrossingAstronomyDataEntity>
-  > {
+  }: MoonPhaseQueryParams): Promise<MoonPhaseDataResponse> {
     const startDate = new Date(datetime);
     startDate.setDate(startDate.getDate() - 5);
 

@@ -1,4 +1,4 @@
-export interface RainHourlyDataEntity {
+export interface RainHourlyDataInterface {
   time: string;
   probability: number;
   total: number;

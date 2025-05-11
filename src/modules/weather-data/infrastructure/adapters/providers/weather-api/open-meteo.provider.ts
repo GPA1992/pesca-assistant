@@ -5,10 +5,11 @@ import { fetchWeatherApi } from 'openmeteo';
 import { OpenMeteoPort } from 'src/modules/weather-data/domain/ports/open-meteo.port';
 
 import { WeatherQueryParams } from 'src/modules/weather-data/domain/types/weather-query-params';
-import { WeatherHourlyDataEntity } from '../entities/weather-hourly.entity';
-import { RainHourlyDataEntity } from '../entities/rain-hourly.entity';
+import { WeatherHourlyDataInterface } from '../entities/weather-hourly.entity';
+import { RainHourlyDataInterface } from '../entities/rain-hourly.entity';
 import { HourlyResponseData } from 'src/modules/weather-data/domain/types/day-hourly-response';
-import { WeatherApiResponse } from 'src/modules/weather-data/domain/types/weather-api-response';
+import { WeatherApiResponse } from './types/weather-api-response';
+import { WeatherVariable } from 'src/modules/weather-data/domain/enums/weather-variable.enum';
 
 @Injectable()
 export class OpenMeteoProvider implements OpenMeteoPort {
@@ -17,7 +18,7 @@ export class OpenMeteoProvider implements OpenMeteoPort {
   private async fetchData(
     params: WeatherQueryParams,
     variables: string,
-  ): Promise<HourlyResponseData<WeatherHourlyDataEntity> | undefined> {
+  ): Promise<HourlyResponseData<WeatherHourlyDataInterface> | undefined> {
     const requestParams = {
       latitude: params.latitude,
       longitude: params.longitude,
@@ -68,7 +69,7 @@ export class OpenMeteoProvider implements OpenMeteoPort {
 
   async getTemperature(
     params: WeatherQueryParams,
-  ): Promise<HourlyResponseData<WeatherHourlyDataEntity>> {
+  ): Promise<HourlyResponseData<WeatherHourlyDataInterface>> {
     const data = await this.fetchData(params, 'temperature_2m');
     if (!data) {
       throw new Error('Dados de temperatura não disponíveis');
@@ -78,8 +79,8 @@ export class OpenMeteoProvider implements OpenMeteoPort {
 
   async getHumidity(
     params: WeatherQueryParams,
-  ): Promise<HourlyResponseData<WeatherHourlyDataEntity>> {
-    const data = await this.fetchData(params, 'relative_humidity_2m');
+  ): Promise<HourlyResponseData<WeatherHourlyDataInterface>> {
+    const data = await this.fetchData(params, WeatherVariable.Humidity);
     if (!data) {
       throw new Error('Dados de temperatura não disponíveis');
     }
@@ -88,8 +89,8 @@ export class OpenMeteoProvider implements OpenMeteoPort {
 
   async getPressure(
     params: WeatherQueryParams,
-  ): Promise<HourlyResponseData<WeatherHourlyDataEntity>> {
-    const data = await this.fetchData(params, 'surface_pressure');
+  ): Promise<HourlyResponseData<WeatherHourlyDataInterface>> {
+    const data = await this.fetchData(params, WeatherVariable.Pressure);
     if (!data) {
       throw new Error('Dados de temperatura não disponíveis');
     }
@@ -98,8 +99,8 @@ export class OpenMeteoProvider implements OpenMeteoPort {
 
   async getWindSpeed(
     params: WeatherQueryParams,
-  ): Promise<HourlyResponseData<WeatherHourlyDataEntity>> {
-    const data = await this.fetchData(params, 'wind_speed_10m');
+  ): Promise<HourlyResponseData<WeatherHourlyDataInterface>> {
+    const data = await this.fetchData(params, WeatherVariable.WindSpeed);
     if (!data) {
       throw new Error('Dados de temperatura não disponíveis');
     }
@@ -108,7 +109,7 @@ export class OpenMeteoProvider implements OpenMeteoPort {
 
   async getRainData(
     params: WeatherQueryParams,
-  ): Promise<HourlyResponseData<RainHourlyDataEntity>> {
+  ): Promise<HourlyResponseData<RainHourlyDataInterface>> {
     const requestParams = {
       latitude: params.latitude,
       longitude: params.longitude,

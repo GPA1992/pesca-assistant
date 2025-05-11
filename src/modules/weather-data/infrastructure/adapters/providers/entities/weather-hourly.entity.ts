@@ -1,4 +1,4 @@
-export interface WeatherHourlyDataEntity {
+export interface WeatherHourlyDataInterface {
   time: string;
   value: number;
 }
