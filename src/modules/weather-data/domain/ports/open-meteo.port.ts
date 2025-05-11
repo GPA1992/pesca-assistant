@@ -1,13 +1,23 @@
-import {
-  RainHourlyData,
-  WeatherHourlyData,
-} from '../types/weather-api-response';
+import { RainHourlyDataEntity } from '../../infrastructure/adapters/providers/entities/rain-hourly.entity';
+import { WeatherHourlyDataEntity } from '../../infrastructure/adapters/providers/entities/weather-hourly.entity';
+import { HourlyResponseData } from '../types/day-hourly-response';
+
 import { WeatherQueryParams } from '../types/weather-query-params';
 
 export interface OpenMeteoPort {
-  getTemperature(params: WeatherQueryParams): Promise<WeatherHourlyData>;
-  getHumidity(params: WeatherQueryParams): Promise<WeatherHourlyData>;
-  getPressure(params: WeatherQueryParams): Promise<WeatherHourlyData>;
-  getWindSpeed(params: WeatherQueryParams): Promise<WeatherHourlyData>;
-  getRainData(params: WeatherQueryParams): Promise<RainHourlyData>;
+  getTemperature(
+    params: WeatherQueryParams,
+  ): Promise<HourlyResponseData<WeatherHourlyDataEntity>>;
+  getHumidity(
+    params: WeatherQueryParams,
+  ): Promise<HourlyResponseData<WeatherHourlyDataEntity>>;
+  getPressure(
+    params: WeatherQueryParams,
+  ): Promise<HourlyResponseData<WeatherHourlyDataEntity>>;
+  getWindSpeed(
+    params: WeatherQueryParams,
+  ): Promise<HourlyResponseData<WeatherHourlyDataEntity>>;
+  getRainData(
+    params: WeatherQueryParams,
+  ): Promise<HourlyResponseData<RainHourlyDataEntity>>;
 }

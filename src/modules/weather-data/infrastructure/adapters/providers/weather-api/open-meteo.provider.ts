@@ -3,12 +3,12 @@ import { Injectable } from '@nestjs/common';
 import { fetchWeatherApi } from 'openmeteo';
 
 import { OpenMeteoPort } from 'src/modules/weather-data/domain/ports/open-meteo.port';
-import {
-  RainHourlyData,
-  WeatherApiResponse,
-  WeatherHourlyData,
-} from 'src/modules/weather-data/domain/types/weather-api-response';
+
 import { WeatherQueryParams } from 'src/modules/weather-data/domain/types/weather-query-params';
+import { WeatherHourlyDataEntity } from '../entities/weather-hourly.entity';
+import { RainHourlyDataEntity } from '../entities/rain-hourly.entity';
+import { HourlyResponseData } from 'src/modules/weather-data/domain/types/day-hourly-response';
+import { WeatherApiResponse } from 'src/modules/weather-data/domain/types/weather-api-response';
 
 @Injectable()
 export class OpenMeteoProvider implements OpenMeteoPort {
@@ -17,7 +17,7 @@ export class OpenMeteoProvider implements OpenMeteoPort {
   private async fetchData(
     params: WeatherQueryParams,
     variables: string,
-  ): Promise<WeatherHourlyData | undefined> {
+  ): Promise<HourlyResponseData<WeatherHourlyDataEntity> | undefined> {
     const requestParams = {
       latitude: params.latitude,
       longitude: params.longitude,
@@ -66,7 +66,9 @@ export class OpenMeteoProvider implements OpenMeteoPort {
     };
   }
 
-  async getTemperature(params: WeatherQueryParams): Promise<WeatherHourlyData> {
+  async getTemperature(
+    params: WeatherQueryParams,
+  ): Promise<HourlyResponseData<WeatherHourlyDataEntity>> {
     const data = await this.fetchData(params, 'temperature_2m');
     if (!data) {
       throw new Error('Dados de temperatura não disponíveis');
@@ -74,7 +76,9 @@ export class OpenMeteoProvider implements OpenMeteoPort {
     return data;
   }
 
-  async getHumidity(params: WeatherQueryParams): Promise<WeatherHourlyData> {
+  async getHumidity(
+    params: WeatherQueryParams,
+  ): Promise<HourlyResponseData<WeatherHourlyDataEntity>> {
     const data = await this.fetchData(params, 'relative_humidity_2m');
     if (!data) {
       throw new Error('Dados de temperatura não disponíveis');
@@ -82,7 +86,9 @@ export class OpenMeteoProvider implements OpenMeteoPort {
     return data;
   }
 
-  async getPressure(params: WeatherQueryParams): Promise<WeatherHourlyData> {
+  async getPressure(
+    params: WeatherQueryParams,
+  ): Promise<HourlyResponseData<WeatherHourlyDataEntity>> {
     const data = await this.fetchData(params, 'surface_pressure');
     if (!data) {
       throw new Error('Dados de temperatura não disponíveis');
@@ -90,7 +96,9 @@ export class OpenMeteoProvider implements OpenMeteoPort {
     return data;
   }
 
-  async getWindSpeed(params: WeatherQueryParams): Promise<WeatherHourlyData> {
+  async getWindSpeed(
+    params: WeatherQueryParams,
+  ): Promise<HourlyResponseData<WeatherHourlyDataEntity>> {
     const data = await this.fetchData(params, 'wind_speed_10m');
     if (!data) {
       throw new Error('Dados de temperatura não disponíveis');
@@ -98,7 +106,9 @@ export class OpenMeteoProvider implements OpenMeteoPort {
     return data;
   }
 
-  async getRainData(params: WeatherQueryParams): Promise<RainHourlyData> {
+  async getRainData(
+    params: WeatherQueryParams,
+  ): Promise<HourlyResponseData<RainHourlyDataEntity>> {
     const requestParams = {
       latitude: params.latitude,
       longitude: params.longitude,

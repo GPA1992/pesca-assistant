@@ -2,7 +2,8 @@ import { Injectable, Inject } from '@nestjs/common';
 import { WeatherParamsDto } from '../dtos/weather-params.dto';
 import { OpenMeteoPort } from '../../domain/ports/open-meteo.port';
 import { OPEN_METEO_PROVIDER_TOKEN } from '../../infrastructure/weather.constants';
-import { WeatherHourlyData } from '../../domain/types/weather-api-response';
+import { WeatherHourlyDataEntity } from '../../infrastructure/adapters/providers/entities/weather-hourly.entity';
+import { HourlyResponseData } from '../../domain/types/day-hourly-response';
 
 @Injectable()
 export class GetTemperatureUseCase {
@@ -11,7 +12,9 @@ export class GetTemperatureUseCase {
     private readonly provider: OpenMeteoPort,
   ) {}
 
-  async execute(params: WeatherParamsDto): Promise<WeatherHourlyData> {
+  async execute(
+    params: WeatherParamsDto,
+  ): Promise<HourlyResponseData<WeatherHourlyDataEntity>> {
     return await this.provider.getTemperature(params);
   }
 }

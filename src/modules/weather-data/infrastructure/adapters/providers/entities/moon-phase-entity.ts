@@ -1,12 +1,11 @@
 export interface MoonPhaseDataEntity {
-  daily: {
-    date: string;
-    value: number;
-    description: string;
-  }[];
-  targetDay: {
-    date: string;
-    value: number;
-    description: string;
-  };
+  date: string;
+  moonPhaseValue: number;
+  moonPhaseDescription: string;
+  moonIllumination?: number;
+  moonAge?: number;
+  moonDistance?: number;
+  sunrise: Date;
+  sunset: Date;
+  dayLength: number;
 }

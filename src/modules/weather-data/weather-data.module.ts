@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { OpenMeteoProvider } from './infrastructure/adapters/providers/open-meteo.provider';
 import { GetTemperatureUseCase } from './application/use-cases/get-temperature.use-case';
 import { OPEN_METEO_PROVIDER_TOKEN } from './infrastructure/weather.constants';
 import { GetTemperatureHandler } from './infrastructure/controllers/handlers/get-temperature.handler';
@@ -11,6 +10,9 @@ import { GetPressureUseCase } from './application/use-cases/get-pressure.use-cas
 import { GetWindSpeedUseCase } from './application/use-cases/get-wind-speed.use-case';
 import { GetRainDataUseCase } from './application/use-cases/get-rain-data.use-case';
 import { GetRainDataHandler } from './infrastructure/controllers/handlers/get-raind-data.handler';
+import { OpenMeteoProvider } from './infrastructure/adapters/providers/weather-api/open-meteo.provider';
+import { GetAstronomicalDataHandler } from './infrastructure/controllers/handlers/get-astronomical-data.handler';
+import { GetAstronomicalDataUseCase } from './application/use-cases/get-astronomical-data.use-case';
 
 @Module({
   providers: [
@@ -24,8 +26,10 @@ import { GetRainDataHandler } from './infrastructure/controllers/handlers/get-ra
     GetWindSpeedUseCase,
     OpenMeteoProvider,
     GetRainDataUseCase,
+    GetAstronomicalDataUseCase,
   ],
   controllers: [
+    GetAstronomicalDataHandler,
     GetTemperatureHandler,
     GetHumidityHandler,
     GetPressureHandler,
