@@ -11,8 +11,6 @@ import { GetWindSpeedUseCase } from './application/use-cases/get-wind-speed.use-
 import { GetRainDataUseCase } from './application/use-cases/get-rain-data.use-case';
 import { GetRainDataHandler } from './infrastructure/controllers/handlers/get-raind-data.handler';
 import { OpenMeteoProvider } from './infrastructure/adapters/providers/weather-api/open-meteo.provider';
-import { GetAstronomicalDataHandler } from './infrastructure/controllers/handlers/get-astronomical-data.handler';
-import { GetAstronomicalDataUseCase } from './application/use-cases/get-astronomical-data.use-case';
 
 @Module({
   providers: [
@@ -20,16 +18,15 @@ import { GetAstronomicalDataUseCase } from './application/use-cases/get-astronom
       provide: OPEN_METEO_PROVIDER_TOKEN,
       useClass: OpenMeteoProvider,
     },
+
     GetTemperatureUseCase,
     GetHumidityUseCase,
     GetPressureUseCase,
     GetWindSpeedUseCase,
     OpenMeteoProvider,
     GetRainDataUseCase,
-    GetAstronomicalDataUseCase,
   ],
   controllers: [
-    GetAstronomicalDataHandler,
     GetTemperatureHandler,
     GetHumidityHandler,
     GetPressureHandler,

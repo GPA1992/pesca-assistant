@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { WeatherDataModule } from './modules/weather-data/weather-data.module';
+import { MoonPhasesDataModule } from './modules/moon-phase-data/moon-phase-.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // torna o ConfigService acessível em qualquer lugar
-      envFilePath: '.env', // opcional, padrão é '.env'
+      isGlobal: true,
+      envFilePath: '.env',
     }),
     WeatherDataModule,
+    MoonPhasesDataModule,
   ],
 })
 export class AppModule {}

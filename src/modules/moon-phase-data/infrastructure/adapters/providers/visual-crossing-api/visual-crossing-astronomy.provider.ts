@@ -1,22 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
-
-import { VisualCrossingAstronomyDataEntity } from '../../../../domain/entities/visual-crossing-astronomy-data.entity';
-import { VisualCrossingAstronomyPort } from 'src/modules/weather-data/domain/ports/visual-crossing-weather.port';
-import { DailyResponseData } from 'src/modules/weather-data/domain/types/day-hourly-response';
-import { WeatherQueryParams } from 'src/modules/weather-data/domain/types/weather-query-params';
-
-type VisualCrossingDayResponse = {
-  datetime: string;
-  sunrise: string;
-  sunset: string;
-  moonphase: number;
-  moonrise?: string;
-  moonset?: string;
-};
-
-type VisualCrossingApiResponse = {
-  days: VisualCrossingDayResponse[];
-};
+import { VisualCrossingAstronomyDataEntity } from 'src/modules/moon-phase-data/domain/entities/visual-crossing-astronomy-data.entity';
+import { VisualCrossingAstronomyPort } from 'src/modules/moon-phase-data/domain/ports/visual-crossing-weather.port';
+import { DailyResponseData } from 'src/modules/moon-phase-data/domain/types/day-response';
+import { MoonPhaseQueryParams } from 'src/modules/moon-phase-data/domain/types/moon-phases-query-params';
+import { VisualCrossingAstronomyResponse } from 'src/modules/moon-phase-data/domain/types/visual-crossing-response';
 
 export class VisualCrossingAstronomyProvider
   implements VisualCrossingAstronomyPort
@@ -27,7 +14,7 @@ export class VisualCrossingAstronomyProvider
     datetime,
     latitude,
     longitude,
-  }: WeatherQueryParams): Promise<
+  }: MoonPhaseQueryParams): Promise<
     DailyResponseData<VisualCrossingAstronomyDataEntity>
   > {
     const startDate = new Date(datetime);
@@ -42,7 +29,7 @@ export class VisualCrossingAstronomyProvider
 
     const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/${start}/${end}?unitGroup=metric&key=${this.apiKey}&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset`;
 
-    const response: AxiosResponse<VisualCrossingApiResponse> =
+    const response: AxiosResponse<VisualCrossingAstronomyResponse> =
       await axios.get(url);
     const { days } = response.data;
 

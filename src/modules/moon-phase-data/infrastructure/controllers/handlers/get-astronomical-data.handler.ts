@@ -2,8 +2,8 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { GetAstronomicalDataUseCase } from '../../../application/use-cases/get-astronomical-data.use-case';
 
 import { VisualCrossingAstronomyDataEntity } from '../../../domain/entities/visual-crossing-astronomy-data.entity';
-import { WeatherQueryParams } from '../../../domain/types/weather-query-params';
 import { DailyResponseData } from 'src/modules/weather-data/domain/types/day-hourly-response';
+import { MoonQueryParamsDto } from '../dtos/get-moon-phases-data.query.dto';
 
 @Controller('weather-data/astronomy')
 export class GetAstronomicalDataHandler {
@@ -13,14 +13,18 @@ export class GetAstronomicalDataHandler {
 
   @Get()
   async handle(
-    @Query() query: Record<string, string>,
+    @Query() query: MoonQueryParamsDto,
   ): Promise<DailyResponseData<VisualCrossingAstronomyDataEntity>> {
-    const params: WeatherQueryParams = {
-      latitude: parseFloat(query.latitude),
-      longitude: parseFloat(query.longitude),
-      datetime: new Date(query.datetime),
-    };
+    const date = new Date();
+    date.setUTCFullYear(date.getUTCFullYear());
+    date.setUTCMonth(parseInt(query.targetMonth) - 1);
+    date.setUTCDate(parseInt(query.targetDay));
+    date.setUTCHours(parseInt(query.targetHour), 0, 0, 0);
 
-    return this.getAstronomicalDataUseCase.execute(params);
+    return await this.getAstronomicalDataUseCase.execute({
+      latitude: query.latitude,
+      longitude: query.longitude,
+      datetime: date,
+    });
   }
 }
