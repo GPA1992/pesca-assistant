@@ -12,9 +12,11 @@ export class SolunarApiProvider implements SolunarApiPort {
     date,
     timezone,
   }: SolunarQueryParams): Promise<SolunarPeriod> {
-    const url = `https://api.solunar.org/solunar/${latitude},${longitude},${date},${timezone}`;
-    const { data } = await axios.get<SolunarApiResponse>(url);
+    const formattedDate = date.replace(/-/g, '');
+    const url = `https://api.solunar.org/solunar/${latitude},${longitude},${formattedDate},${timezone}`;
+    const result = await axios.get<SolunarApiResponse>(url);
 
+    const { data } = result;
     return SolunarPeriod.create({
       date: new Date(date),
       sunRise: data.sunRise,

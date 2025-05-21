@@ -13,5 +13,12 @@ import { VisualCrossingAstronomyProvider } from './infrastructure/adapters/provi
     GetAstronomicalDataUseCase,
   ],
   controllers: [GetAstronomicalDataHandler],
+  exports: [
+    {
+      provide: VISUAL_CROSSING_ASTRONOMY_PROVIDER,
+      useClass: VisualCrossingAstronomyProvider,
+    },
+    GetAstronomicalDataUseCase,
+  ],
 })
 export class MoonPhasesDataModule {}

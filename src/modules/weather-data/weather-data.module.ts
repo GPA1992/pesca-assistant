@@ -37,6 +37,14 @@ import { GetAllWeatherDataUseCase } from './application/use-cases/get-all-weathe
     GetRainDataHandler,
     GetAllWeatherDataHandler,
   ],
-  exports: [GetTemperatureUseCase],
+  exports: [
+    GetTemperatureUseCase,
+    GetHumidityUseCase,
+    GetPressureUseCase,
+    GetWindSpeedUseCase,
+    OpenMeteoProvider,
+    GetRainDataUseCase,
+    GetAllWeatherDataUseCase,
+  ],
 })
 export class WeatherDataModule {}

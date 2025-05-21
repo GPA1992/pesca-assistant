@@ -5,6 +5,7 @@ import { SolunarApiProvider } from './infrastructure/adapters/providers/solunar-
 
 @Module({
   controllers: [GetSolunarPeriodsHandler],
+  exports: [GetSolunarPeriodsUseCase],
   providers: [
     GetSolunarPeriodsUseCase,
     {

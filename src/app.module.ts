@@ -7,6 +7,7 @@ import { RedisModule } from './common/infrastructure/redis/redis.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DocumentIngestionModule } from './modules/document-ingestion/document-ingestion.module';
+import { AiPromptGeneratorModule } from './modules/ai-prompt-generator/ai-prompt-generator.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { DocumentIngestionModule } from './modules/document-ingestion/document-i
     MoonPhasesDataModule,
     SolunarPeriodsModule,
     DocumentIngestionModule,
+    AiPromptGeneratorModule,
   ],
   providers: [AppService],
   controllers: [AppController],
