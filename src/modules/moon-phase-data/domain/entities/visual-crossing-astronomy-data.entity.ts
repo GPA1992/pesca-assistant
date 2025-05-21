@@ -29,7 +29,6 @@ export class VisualCrossingAstronomyDataEntity {
   }
 
   private toDate(time: string): Date {
-    // Adiciona data fictícia apenas para cálculo de diferença
     return new Date(`1970-01-01T${time}`);
   }
 

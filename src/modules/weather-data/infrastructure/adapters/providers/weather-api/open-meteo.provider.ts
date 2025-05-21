@@ -1,16 +1,12 @@
 import { Injectable } from '@nestjs/common';
-
 import { fetchWeatherApi } from 'openmeteo';
-
 import { OpenMeteoPort } from 'src/modules/weather-data/domain/ports/open-meteo.port';
-
 import { WeatherQueryParams } from 'src/modules/weather-data/domain/types/weather-query-params';
 import { WeatherHourlyDataInterface } from '../entities/weather-hourly.entity';
 import { RainHourlyDataInterface } from '../entities/rain-hourly.entity';
 import { HourlyResponseData } from 'src/modules/weather-data/domain/types/day-hourly-response';
 import { WeatherApiResponse } from './types/weather-api-response';
-import { WeatherVariable } from 'src/modules/weather-data/domain/enums/weather-variable.enum';
-import { WeatherDataByHour } from 'src/modules/weather-data/domain/types/weather-data-by-hour';
+import { WeatherData } from 'src/modules/weather-data/domain/entities/weather-data.entity';
 
 @Injectable()
 export class OpenMeteoProvider implements OpenMeteoPort {
@@ -70,7 +66,7 @@ export class OpenMeteoProvider implements OpenMeteoPort {
 
   async getAllWeatherData(
     params: WeatherQueryParams,
-  ): Promise<HourlyResponseData<WeatherDataByHour>> {
+  ): Promise<HourlyResponseData<WeatherData>> {
     const requestParams = {
       latitude: params.latitude,
       longitude: params.longitude,
@@ -124,46 +120,6 @@ export class OpenMeteoProvider implements OpenMeteoPort {
       hourly: hourlyData,
       targetHour: hourlyData[index],
     };
-  }
-
-  async getTemperature(
-    params: WeatherQueryParams,
-  ): Promise<HourlyResponseData<WeatherHourlyDataInterface>> {
-    const data = await this.fetchData(params, 'temperature_2m');
-    if (!data) {
-      throw new Error('Dados de temperatura não disponíveis');
-    }
-    return data;
-  }
-
-  async getHumidity(
-    params: WeatherQueryParams,
-  ): Promise<HourlyResponseData<WeatherHourlyDataInterface>> {
-    const data = await this.fetchData(params, WeatherVariable.Humidity);
-    if (!data) {
-      throw new Error('Dados de temperatura não disponíveis');
-    }
-    return data;
-  }
-
-  async getPressure(
-    params: WeatherQueryParams,
-  ): Promise<HourlyResponseData<WeatherHourlyDataInterface>> {
-    const data = await this.fetchData(params, WeatherVariable.Pressure);
-    if (!data) {
-      throw new Error('Dados de temperatura não disponíveis');
-    }
-    return data;
-  }
-
-  async getWindSpeed(
-    params: WeatherQueryParams,
-  ): Promise<HourlyResponseData<WeatherHourlyDataInterface>> {
-    const data = await this.fetchData(params, WeatherVariable.WindSpeed);
-    if (!data) {
-      throw new Error('Dados de temperatura não disponíveis');
-    }
-    return data;
   }
 
   async getRainData(
